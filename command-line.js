@@ -73,7 +73,7 @@ inputFiles.forEach(function (srcFile) {
     try {
         compiled = amdtoes6(context, {
             beautify: program.beautify
-        });
+        }, filePath);
     }
     catch (e) {
         console.error('Unable to compile ' + filePath + '.\n  Error:  ' + e.message + '\n');

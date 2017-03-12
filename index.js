@@ -2,6 +2,7 @@ var os = require('os');
 var falafel = require('falafel');
 var acorn = require('acorn-jsx');
 var beautify = require('js-beautify').js_beautify;
+var pathMapper = require('./path-mapper');
 
 module.exports = convert;
 
@@ -9,9 +10,10 @@ module.exports = convert;
  * Converts some code from AMD to ES6
  * @param {string} source
  * @param {object} [options]
+ * @param {string} filePath
  * @returns {string}
  */
-function convert (source, options) {
+function convert (source, options, filePath) {
 
     options = options || {};
 
@@ -116,7 +118,7 @@ function convert (source, options) {
     });
 
     // start with import statements
-    var moduleCode = getImportStatements(dependenciesMap);
+    var moduleCode = getImportStatements(dependenciesMap, filePath);
 
     // add modules code
     moduleCode += getModuleCode(moduleFunc);
@@ -141,10 +143,12 @@ function convert (source, options) {
  * @param {object} dependencies
  * @returns {string}
  */
-function getImportStatements (dependencies) {
+function getImportStatements (dependencies, filePath) {
     var statements = [];
 
     for (var key in dependencies) {
+
+        key = pathMapper(key, filePath);
 
         if (!dependencies[key]) {
             statements.push('import ' + key + ';');
