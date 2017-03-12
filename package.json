@@ -10,7 +10,8 @@
   "files": [
     "bin/",
     "command-line.js",
-    "index.js"
+    "index.js",
+    "path-mapper.js"
   ],
   "repository": {
     "type": "git",
